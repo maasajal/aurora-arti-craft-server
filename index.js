@@ -19,6 +19,10 @@ const client = new MongoClient(uri, {
   },
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Aurora Artify Craft Emporium online store!");
+});
+
 const run = async () => {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -32,9 +36,18 @@ const run = async () => {
       res.send(result);
     });
 
-    app.get("/crafts/:item_name", async (req, res) => {
-      const itemName = req.params.item_name;
-      const query = { item_name: itemName };
+    // app.get("/crafts/:item_name", async (req, res) => {
+    //   const itemName = req.params.item_name;
+    //   console.log("Single item_name: ", itemName);
+    //   const query = { item_name: itemName };
+    //   const craft = await craftCollection.findOne(query);
+    //   res.send(craft);
+    // });
+
+    app.get("/crafts/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("Single id: ", id);
+      const query = { _id: new ObjectId(id) };
       const craft = await craftCollection.findOne(query);
       res.send(craft);
     });
@@ -92,10 +105,6 @@ const run = async () => {
   }
 };
 run().catch(console.dir);
-
-app.get("/", (req, res) => {
-  res.send("Welcome to the Aurora Artify Craft Emporium online store!");
-});
 
 app.listen(port, () => {
   console.log(`Aurora Artify Craft Emporium server is running on port ${port}`);
