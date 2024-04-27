@@ -26,6 +26,12 @@ const run = async () => {
     // Create database and collection as table
     const craftCollection = client.db("Art&CraftDB").collection("crafts");
 
+    app.get("/crafts", async (req, res) => {
+      const cursor = craftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.post("/crafts", async (req, res) => {
       const newCraft = req.body; // get new item from client site
       console.log("New Craft", newCraft);
