@@ -32,6 +32,13 @@ const run = async () => {
       res.send(result);
     });
 
+    app.get("/crafts/:item_name", async (req, res) => {
+      const itemName = req.params.item_name;
+      const query = { item_name: itemName };
+      const craft = await craftCollection.findOne(query);
+      res.send(craft);
+    });
+
     app.post("/crafts", async (req, res) => {
       const newCraft = req.body; // get new item from client site
       console.log("New Craft", newCraft);
