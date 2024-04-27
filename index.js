@@ -47,6 +47,32 @@ const run = async () => {
       res.send(result);
     });
 
+    app.put("/crafts/:id", async (req, res) => {
+      const id = req.params.id;
+      const craft = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateCraft = {
+        $set: {
+          item_name: craft.item_name,
+          subcategory_name: craft.subcategory_name,
+          price: craft.price,
+          rating: craft.rating,
+          customization: craft.customization,
+          processing_time: craft.processing_time,
+          stock_status: craft.stock_status,
+          short_description: craft.short_description,
+          image: craft.image,
+        },
+      };
+      const result = await craftCollection.updateOne(
+        filter,
+        updateCraft,
+        options
+      );
+      res.send(result);
+    });
+
     app.delete("/crafts/:id", async (req, res) => {
       const id = req.params.id;
       console.log("Delete from database", id);
