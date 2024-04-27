@@ -24,6 +24,15 @@ const run = async () => {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Create database and collection as table
+    const craftCollection = client.db("Art&CraftDB").collection("crafts");
+
+    app.post("/crafts", async (req, res) => {
+      const newCraft = req.body; // get new item from client site
+      console.log("New Craft", newCraft);
+      // insertOne item and send to database
+      const result = await craftCollection.insertOne(newCraft);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
