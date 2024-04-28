@@ -29,20 +29,25 @@ const run = async () => {
     await client.connect();
     // Create database and collection as table
     const craftCollection = client.db("Art&CraftDB").collection("crafts");
+    const feedBack = client.db("Art&CraftDB").collection("feedback");
+    const categories = client.db("Art&CraftDB").collection("categories");
 
     app.get("/crafts", async (req, res) => {
       const cursor = craftCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/categories", async (req, res) => {
+      const cursor = categories.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
-    // app.get("/crafts/:item_name", async (req, res) => {
-    //   const itemName = req.params.item_name;
-    //   console.log("Single item_name: ", itemName);
-    //   const query = { item_name: itemName };
-    //   const craft = await craftCollection.findOne(query);
-    //   res.send(craft);
-    // });
+    app.get("/feedback", async (req, res) => {
+      const cursor = feedBack.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     app.get("/crafts/:id", async (req, res) => {
       const id = req.params.id;
